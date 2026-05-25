@@ -32,7 +32,7 @@ let sfxvolume = 1;
 sfxSounds = [];
 
 let font;
-let ig;
+let ig, github;
 
 let tp, te, skipImg;
 
@@ -62,6 +62,7 @@ function preload() {
 
   // preload images
   ig = loadImage("./images/ig.png");
+  github = loadImage("./images/github.png");
 
   tp = loadImage("./images/tracker_player.png");
   te = loadImage("./images/tracker_enemy.png");
@@ -298,9 +299,10 @@ function draw() {
     text("DÍKY ZA HRU!", width / 2, height / 2 + 200);
     textSize(20);
     text("CREATED BY:", width / 2, height - 60);
-    text("@KROULITSCH", width / 2 + 20, height - 20);
+    text("KROULITSCH", width / 2 + 20, height - 20);
 
-    image(ig, floor(width / 2) - 95, floor(height) - 28);
+    image(ig, floor(width / 2) - 85, floor(height) - 28);
+    image(github, floor(width / 2) - 119, floor(height) - 28);
 
     // just in the first frame of the endscreen
     if (!endRestartButton.active) {
@@ -344,8 +346,10 @@ function draw() {
 
     textSize(20);
     text("CREATED BY:", width / 2, height - 60);
-    text("@KROULITSCH", width / 2 + 20, height - 20);
-    image(ig, floor(width / 2) - 95, floor(height) - 28);
+    text("KROULITSCH", width / 2 + 20, height - 20);
+
+    image(ig, floor(width / 2) - 85, floor(height) - 28);
+    image(github, floor(width / 2) - 119, floor(height) - 28);
 
     // game rules
     textSize(15);
