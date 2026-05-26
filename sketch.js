@@ -146,8 +146,8 @@ function setup() {
   playButton.setFunction(play);
 
   diffArray = [];
-  diffArray.push("./images/diff_easy.png", "./images/diff_normal.png", "./images/diff_hard.png");
-  diffButton = new Button(floor(width / 2) + 0.5, floor(height * 0.58) + 0.5, diffArray[difficulty], true);
+  diffArray.push("./images/diff2_easy.png", "./images/diff2_normal.png", "./images/diff2_hard.png");
+  diffButton = new Button(floor(width / 2), floor(height * 0.58), diffArray[difficulty], true);
   diffButton.setFunction(setDifficulty);
 
   // shuffle deck and draw 5 cards for each player
