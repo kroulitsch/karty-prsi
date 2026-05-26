@@ -1,6 +1,13 @@
 let cardback, trackerP, trackerE, skipButton, draw2, draw4, draw6, draw8, drawButton, drawButtons;
 let srdceButton, pikyButton, krizeButton, karyButton, suitButtons;
 let restartButton, musicButton, SFXButton, endRestartButton, playButton, pauseButton;
+let diffButton, diffArray;
+
+const EASY = 0;
+const NORMAL = 1;
+const HARD = 2;
+
+let difficulty = EASY;
 
 let song, menusong, sfxSounds, skipSound, drawSound, playSound, clickSound, draw7Sound, errorSound, winSound, loseSound;
 
@@ -135,8 +142,13 @@ function setup() {
   endRestartButton = new Button(floor(width / 2), floor(height / 2), "./images/restart_big.png", false, "endRestart");
   endRestartButton.setFunction(restart);
 
-  playButton = new Button(floor(width / 2), height * 0.78, "./images/play.png");
+  playButton = new Button(floor(width / 2), floor(height * 0.78), "./images/play.png");
   playButton.setFunction(play);
+
+  diffArray = [];
+  diffArray.push("./images/diff_easy.png", "./images/diff_normal.png", "./images/diff_hard.png");
+  diffButton = new Button(floor(width / 2) + 0.5, floor(height * 0.58) + 0.5, diffArray[difficulty], true);
+  diffButton.setFunction(setDifficulty);
 
   // shuffle deck and draw 5 cards for each player
 
@@ -203,9 +215,9 @@ function draw() {
 
   // draw the correct game tracking token
   if (moveCounter % 2 == ENEMY) {
-    image(trackerE, 80.5, height / 2, floor(height * 0.09), floor(height * 0.09));
+    image(trackerE, 80.5, floor(height / 2) + 0.5, floor(height * 0.09) + 0.5, floor(height * 0.09));
   } else {
-    image(trackerP, 80.5, height / 2, floor(height * 0.09), floor(height * 0.09));
+    image(trackerP, 80.5, floor(height / 2) + 0.5, floor(height * 0.09) + 0.5, floor(height * 0.09));
   }
 
   // show the buttons
@@ -334,6 +346,10 @@ function draw() {
       playButton.activate();
     }
 
+    if (!diffButton.active && moveCounter == 0) {
+      diffButton.activate();
+    }
+
     // write the text onto the screen
     background(0, 200);
     textAlign(CENTER);
@@ -360,9 +376,10 @@ function draw() {
     text("PRO STÁNÍ NA ESO KLIKNĚTE NA         .", width / 2, 350);
     text("DÁMA SE DÁ POLOŽIT NA JAKOUKOLIV KARTU.", width / 2, 390);
     text("PO POLOŽENÍ DÁMY ZVOLTE POŽADOVANÝ ZNAK.", width / 2, 430);
+    text("VYBERTE SI OBTÍŽNOST:", width / 2, 510);
 
     textSize(30);
-    //text("PŘIPRAVENI? TAK JDEME NA TO!!!", width / 2, 670);
+    text("PŘIPRAVENI? TAK JDEME NA TO!!!", width / 2, 670);
 
     // draw icons into the text
     image(tp, floor(width / 2) - 55.5, 220 + 0.5, 30, 30);
@@ -376,6 +393,7 @@ function draw() {
     SFXButton.show();
     restartButton.show();
     playButton.show();
+    diffButton.show();
   }
 }
 
@@ -637,6 +655,7 @@ function mouseClicked() {
   musicButton.clicked();
   SFXButton.clicked();
   playButton.clicked();
+  diffButton.clicked();
   if (gamestate == PLAYING) {
     if (moveCounter % 2 == PLAYER && (suitChange == -2 || suitChange == -1)) {
       skipButton.clicked();
@@ -848,12 +867,12 @@ function switchSFX() {
   if (SFXButton.id == UNMUTED) {
     SFXButton.id = MUTED;
     sfxvolume = 0;
-    let img = loadImage("./images/no_sfx.png")
+    let img = loadImage("./images/no_sfx.png");
     SFXButton.setImage(img);
   } else {
     SFXButton.id = UNMUTED;
     sfxvolume = 1;
-    let img = loadImage("./images/sfx.png")
+    let img = loadImage("./images/sfx.png");
     SFXButton.setImage(img);
     clickSound.play();
   }
@@ -867,12 +886,12 @@ function switchMusic() {
   if (musicButton.id == UNMUTED) {
     musicButton.id = MUTED;
     musicvolume = 0;
-    let img = loadImage("./images/no_music.png")
+    let img = loadImage("./images/no_music.png");
     musicButton.setImage(img);
   } else {
     musicButton.id = UNMUTED;
     musicvolume = 0.3;
-    let img = loadImage("./images/music.png")
+    let img = loadImage("./images/music.png");
     musicButton.setImage(img);
   }
 }
@@ -883,6 +902,7 @@ function switchMusic() {
 function play() {
   clickSound.play();
   playButton.activate();
+  diffButton.activate();
   gamestate = PLAYING;
 }
 
@@ -893,4 +913,15 @@ function pause() {
   clickSound.play();
   gamestate = PAUSE;
   pauseButton.activate();
+}
+
+/**
+ * @brief This function is used by the Difficulty button, iterates through difficulties
+ */
+function setDifficulty() {
+  clickSound.play();
+  difficulty++;
+  difficulty %= 3;
+  let img = loadImage(diffArray[difficulty])
+  diffButton.setImage(img);
 }
